@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Video Tanpa Watermark</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  @keyframes rainbow {
+    0%{color:#ff0000;} 14%{color:#ff7f00;} 28%{color:#ffff00;} 42%{color:#00ff00;} 
+    57%{color:#0000ff;} 71%{color:#4b0082;} 85%{color:#8f00ff;} 100%{color:#ff0000;}
+  }
+
+  h1 {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: rainbow 3s infinite;
+  }
+
+  .container {
+    background: rgba(0,0,0,0.75);
+    padding: 30px;
+    border-radius: 20px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  h2 { margin-bottom: 20px; color: #ffd700; }
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+  }
+  select { cursor: pointer; }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #continue { background: #ff6f61; color: #fff; }
+  #continue:hover { background: #ff3b2f; transform: scale(1.05); }
+
+  .format-options { display: none; margin-top: 20px; }
+  .format-options button {
+    background: #4ade80;
+    color: #000;
+    margin: 5px 0;
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+  .format-options button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  @keyframes fadeIn { from {opacity:0; transform: translateY(-20px);} to {opacity:1; transform: translateY(0);} }
+
+</style>
+</head>
+<body>
+
+<div>
+  <h1>📥 Download Web Ini</h1>
+  <div class="container">
+    <h2>Download Video</h2>
+    <select id="platform">
+      <option value="">[ PILIH TYPE ↓ ]</option>
+      <option value="tiktok">TikTok</option>
+      <option value="youtube">YouTube</option>
+      <option value="instagram">Instagram</option>
+    </select>
+
+    <input type="text" id="videoUrl" placeholder="Masukkan URL video">
+
+    <button id="continue" onclick="showFormatMenu()">Lanjutkan</button>
+
+    <div class="format-options" id="formatMenu">
+      <p>Pilih format yang ingin diunduh:</p>
+      <button onclick="download('video')">Video Tanpa Watermark (MP4)</button>
+      <button onclick="download('audio')">Music (MP3)</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showFormatMenu() {
+  const url = document.getElementById('videoUrl').value;
+  const platform = document.getElementById('platform').value;
+
+  if(!url || !platform) {
+    alert("Tolong pilih platform dan masukkan URL video!");
+    return;
+  }
+
+  document.getElementById('formatMenu').style.display = 'block';
+}
+
+function download(format) {
+  const url = document.getElementById('videoUrl').value;
+  const platform = document.getElementById('platform').value;
+  let apiUrl = '';
+
+  if(platform === 'tiktok') {
+    apiUrl = format === 'video' ? `https://ssstik.io/id/${url}` : `https://ssstik.io/download-tiktok-mp3/${url}`;
+  } else if(platform === 'youtube') {
+    apiUrl = format === 'video' ? `https://youtube-download-api.matheusishiyama.repl.co/mp4/?url=${encodeURIComponent(url)}` : `https://youtube-download-api.matheusishiyama.repl.co/mp3/?url=${encodeURIComponent(url)}`;
+  } else if(platform === 'instagram') {
+    apiUrl = format === 'video' ? `https://apify.com/scraper-mind/instagram-video-downloader/api?url=${encodeURIComponent(url)}` : '';
+  }
+
+  if(apiUrl) { window.open(apiUrl, '_blank'); }
+  else { alert("Format tidak tersedia untuk platform ini."); }
+}
+</script>
+
+</body>
+</html>
